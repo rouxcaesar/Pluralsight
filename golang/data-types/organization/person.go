@@ -23,6 +23,16 @@ type Identifiable interface {
 	ID() string
 }
 
+type socialSecurityNumber string
+
+func NewSocialSecurityNumber(value string) Identifiable {
+	return socialSecurityNumber(value)
+}
+
+func (ssn socialSecurityNumber) ID() string {
+	return string(ssn)
+}
+
 type Name struct {
 	first string
 	last  string
@@ -39,21 +49,23 @@ type Employee struct {
 type Person struct {
 	Name
 	twitterHandler TwitterHandler
+	identifiable   Identifiable
 }
 
-func NewPerson(firstName, lastName string) Person {
+func NewPerson(firstName, lastName string, identifiable Identifiable) Person {
 	return Person{
 		Name: Name{
 			first: firstName,
 			last:  lastName,
 		},
+		identifiable: identifiable,
 	}
 }
 
 // Person has ID method on it, so Person
 // implements type Identifiable.
 func (p Person) ID() string {
-	return "12345"
+	return p.identifiable.ID()
 }
 
 func (p *Person) SetTwitterHandler(handler TwitterHandler) error {

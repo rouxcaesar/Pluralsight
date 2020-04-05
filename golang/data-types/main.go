@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	p := organization.NewPerson("James", "Wilson")
+	p := organization.NewPerson("James", "Wilson", organization.NewSocialSecurityNumber("123-45-6789"))
 
 	err := p.SetTwitterHandler("@jam_wils")
 	if err != nil {
